@@ -1,5 +1,4 @@
 
-
 /**
  * 日志输出
  * @param {Object} str	string|object
@@ -40,9 +39,9 @@ function getJSONError(err){
 	switch(err.message) {
 		case 'network error!':		msg = '请检查网络状态';	break;
 		case 'json parse failed!':	msg = '数据解析错误';	break;
-		case 'file does not exist!':msg = '文件不存在';		break;
+		case 'file does not exist!':	msg = '文件不存在';		break;
 		case 'read file failed!':	msg = '文件读取错误';	break;
-		default: 					msg = '发现未知错误';	break;
+		default: 			msg = '发现未知错误';	break;
 	}
 	toast('0',msg,'3000');
 }
@@ -61,7 +60,7 @@ function isDefine(para){
  */
 var lcstor = window.localStorage;
 function setLS(key,value,isObj){
-    return lcstor[key] = (isObj ? JSON.stringify(value) : value);
+	return lcstor[key] = (isObj ? JSON.stringify(value) : value);
 }
 
 function getLS(key,isObj){
@@ -69,7 +68,7 @@ function getLS(key,isObj){
 }
 
 function clearLS(key){
-    return (key ? lcstor.removeItem(key) : lcstor.clear());
+	return (key ? lcstor.removeItem(key) : lcstor.clear());
 }
 
 /**
@@ -161,9 +160,9 @@ function curDate(type){
 		mm = d.getMinutes()<10?('0'+d.getMinutes()):d.getMinutes(),
 		ss = d.getSeconds()<10?('0'+d.getSeconds()):d.getSeconds();
 	switch(type) {
-		case 1:		d = [yyyy,MM,dd];			break;	//[yyyy,MM,dd]
+		case 1:		d = [yyyy,MM,dd];		break;	//[yyyy,MM,dd]
 		case 2:		d = yyyy+'-'+MM+'-'+dd;		break;	//yyyy-MM-dd
-		case 3:		d = [HH,mm,ss];				break;	//[HH,mm,ss]
+		case 3:		d = [HH,mm,ss];			break;	//[HH,mm,ss]
 		case 4:		d = HH+':'+mm+':'+sd;		break;	//HH:mm:ss
 		case 5:		d = [yyyy,MM,dd,HH,mm,ss];	break;	//[yyyy,MM,dd,HH,mm,ss]
 		default: 	d = yyyy+'-'+MM+'-'+dd+' ' + HH +':' + mm +':' + ss;	break;	//yyyy-MM-dd HH:mm:ss
@@ -265,13 +264,13 @@ function mapOpen(id,lon,lat,x,y){	//x|y:坐标位置
 function mapAddMark(id,lon,lat,image,msg){
 	msg = msg ? msg : '';
 	var str = {"markInfo":[{
-							"id":id,
-							"longitude":lon,
-							"latitude":lat,
-							"imageUrl":image,
-							"imageWidth":"50",
-							"imageHeight":"50",
-							"message":''}]};
+				"id":id,
+				"longitude":lon,
+				"latitude":lat,
+				"imageUrl":image,
+				"imageWidth":"50",
+				"imageHeight":"50",
+				"message":''}]};
 	uexBaiduMap.addMark(JSON.stringify(str));
 	uexBaiduMap.showBubbleView2(id,msg,'');
 }
