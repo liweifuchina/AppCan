@@ -1,3 +1,7 @@
+var 	winPlat = window.navigator.platform; 
+var	isPhone = !(winPlat == 'Win32' || winPlat == 'Win64' || winPlat == 'MacIntel' || winPlat == 'Linux i686' || winPlat == 'Linux x86_64'),	
+	isIOS = (winPlat == 'iPad' || winPlat == 'iPod' || winPlat == 'iPhone'),
+	isAndroid = window.navigator.userAgent.indexOf('Android');
 
 /**
  * 日志输出
@@ -7,6 +11,36 @@
 function log(str,obj){
 	str = obj ? str+'	'+JSON.stringify(obj) : typeof str == 'object' ? JSON.stringify(str) : str;
 	uexLog.sendLog(str);
+}
+
+/**
+ * 
+ * @param {Object} name	窗口名称
+ * @param {Object} url	请求地址
+ * @param {Object} anim	动画效果	[0:None,5:淡入淡出]	推入[1:LeftToRight,2:RightToLeft,3:UpToDown,4:DownToUp]	切入[9:LeftToRight,10:RightToLeft,11:UpToDown,12:DownToUp]
+ * @param {Object} flag	功能参数	[0:普通;1:OAuth;2:加密;4:强制刷新;8:wind中url调用系统浏览器;64:popOver预加载;128:手势缩放]
+ */
+function winOpen(name,url,anim,flag){
+    anim = anim ? anim : 2,flag = flag ? flag : 4;
+    uexWindow.open(name, '0', url, anim, '', '', flag, '0');	//animDuration默认为250ms
+}
+
+/**
+ * 跨窗口执行脚本
+ * @param {Object} main		主窗口名称
+ * @param {Object} pop		浮动窗口名称
+ * @param {Object} funstr	脚本方法
+ */
+function winEval(main,pop,funstr){
+	pop ? uexWindow.evaluatePopoverScript(main,pop,funstr) : uexWindow.evaluateScript(main,'0',funstr);
+}
+
+/**
+ * 关闭窗口
+ * @param {Object} n 关闭参数
+ */
+function winClose(n){
+	n==='' ? uexWindow.close(n) : uexWindow.close(-1);
 }
 
 /**
@@ -145,6 +179,25 @@ function initBounce(funcTop, funcBtm){
 		uexWindow.showBounceView(btm,"rgba(255,255,255,0)",1);//设置弹动位置及效果([1:显示内容;0:不显示])
 		uexWindow.notifyBounceEvent(btm,1);		//注册接收弹动事件([0:不接收onBounceStateChange方法回调;1:接收])
 	}
+}
+
+/**
+ * 验证接口，获取应用的AuthorizeID
+ * @param {Object} func		回调函数
+ * @param {Object} refresh	强制刷新AuthorizeID
+ */
+function getAuthorizeID(func,refresh){
+	uexDataAnalysis.cbGetAuthorizeID = function(opid, dataType, data){
+		if (data) {
+			if(func)	func(data);
+		}else{
+			uexDataAnalysis.refreshGetAuthorizeID();
+		}
+	};
+	if(refresh)
+		uexDataAnalysis.refreshGetAuthorizeID();
+	else
+		uexDataAnalysis.getAuthorizeID();
 }
 
 /**
