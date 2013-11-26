@@ -73,11 +73,11 @@ function getJSONError(err){
 	switch(err.message) {
 		case 'network error!':		msg = '请检查网络状态';	break;
 		case 'json parse failed!':	msg = '数据解析错误';	break;
-		case 'file does not exist!':	msg = '文件不存在';		break;
+		case 'file does not exist!':	msg = '文件不存在';	break;
 		case 'read file failed!':	msg = '文件读取错误';	break;
 		default: 			msg = '发现未知错误';	break;
 	}
-	toast('0',msg,'3000');
+	uexWindow.toast('0','5',msg,'3000');
 }
 
 
@@ -86,7 +86,7 @@ function getJSONError(err){
  * @param {Object} para
  */
 function isDefine(para){
-	return (!para || para.toLowerCase() == 'undefined' || para.toLowerCase() == 'null') ? false : true;
+	return (para == undefined || para == null || para == '') ? false : true;
 }
 
 /**
